@@ -9,7 +9,7 @@ Monólito modular full-stack em `apps/web`: React Server Components, Server Acti
 - `@blab/types`: roles e permissões sem código de banco, seguros para consumidores de interface.
 - `@blab/config`: base TypeScript estrita.
 
-A interface v0 foi recebida na branch `feat/frontend-crm-ui` e reside em `apps/web`. Sidebar, header, temas claro/escuro, componentes e páginas usam os fontes recebidos. Não houve redesign durante a revisão da integração. O controle de acesso é real, enquanto as telas comerciais são demonstrações identificadas; fixtures ficam em `lib/mock` e são lidas por `lib/data.ts`, que não acessa o banco. Cada página privada e o metadata de empresas validam `requireOrganization` antes de ler dados, além do guard do layout. Configurações recebe identidade e organização reais do servidor; edição ainda é simulada.
+A interface v0 foi recebida na branch `feat/frontend-crm-ui` e reside em `apps/web`. Sidebar, header, temas claro/escuro, componentes e páginas usam os fontes recebidos. Não houve redesign durante a revisão da integração. O controle de acesso é real. Os fixtures de demonstração foram removidos; `lib/data.ts` retorna coleções vazias até a implementação dos módulos comerciais, sem simular consultas ao banco ou métricas. Os indicadores sem dados usam travessão, sem percentuais de crescimento fictícios. Cada página privada e o metadata de empresas validam `requireOrganization` antes de ler dados, além do guard do layout. Configurações recebe identidade e organização reais do servidor; edição ainda é simulada.
 
 ## Fluxo de execução
 

@@ -42,11 +42,11 @@ export function PageContainer({ children, className }: { children: React.ReactNo
   )
 }
 
-export function DemoBadge() {
+export function ModuleStatus() {
   return (
     <span className="inline-flex w-fit items-center gap-1.5 rounded-md border border-dashed px-2 py-0.5 font-mono text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
       <span className="size-1.5 rounded-full bg-brand-violet" aria-hidden="true" />
-      Dados de demonstração
+      Em preparação
     </span>
   )
 }

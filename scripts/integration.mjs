@@ -113,9 +113,16 @@ try {
   const html = await response.text();
   assert(html.includes("Admin Teste"));
   assert(html.includes("B.lab"));
-  assert(html.includes("Dados de demonstração"));
+  assert(html.includes("Nenhuma oportunidade cadastrada."));
+  assert(html.includes("Nenhuma atividade agendada."));
+  for (const fake of ["Bom dia, Ana", "B.lab Studio", "214,6", "Café Tropeiro"]) assert(!html.includes(fake));
   for (const path of privatePaths.filter((path) => path !== "/")) {
-    assert.equal((await request(path)).status, 200, `Rota privada com sessão: ${path}`);
+    const page = await request(path);
+    const content = await page.text();
+    if (path === "/empresas/cmp-01") {
+      assert(page.status === 404 || content.includes('NEXT_HTTP_ERROR_FALLBACK;404'), "Empresa fictícia removida deve retornar notFound");
+    } else assert.equal(page.status, 200, `Rota privada com sessão: ${path}`);
+    for (const fake of ["Café Tropeiro", "Academia Movimento", "Bom dia, Ana", "B.lab Studio"]) assert(!content.includes(fake), `Sem registros fictícios em ${path}`);
   }
   const settings = await (await request("/configuracoes")).text();
   assert(settings.includes(env.BOOTSTRAP_ADMIN_EMAIL));

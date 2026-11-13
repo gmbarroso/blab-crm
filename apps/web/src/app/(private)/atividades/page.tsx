@@ -2,7 +2,7 @@ import { requireOrganization } from "@/server/auth/session";
 import type { Metadata } from 'next'
 import { Plus } from 'lucide-react'
 import { ActivitiesView } from '@/components/activities/activities-view'
-import { DemoBadge, PageContainer, PageHeader } from '@/components/shared/page-header'
+import { ModuleStatus, PageContainer, PageHeader } from '@/components/shared/page-header'
 import { Button } from '@/components/ui/button'
 import { getActivityGroups } from '@/lib/data'
 
@@ -14,7 +14,7 @@ export default async function ActivitiesPage() {
   return (
     <PageContainer>
       <PageHeader
-        eyebrow={<DemoBadge />}
+        eyebrow={<ModuleStatus />}
         title="Atividades"
         description="Ligações, reuniões e tarefas organizadas por prazo."
         actions={

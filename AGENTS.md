@@ -1,7 +1,7 @@
 # Instruções de desenvolvimento — B.lab CRM
 
 - Leia README.md e docs/architecture.md antes de alterar a arquitetura.
-- Preserve componentes, estilos, temas e navegação existentes. A interface recebida na branch feat/frontend-crm-ui está em apps/web; preserve sua identidade visual e mantenha os dados de demonstração separados do banco real.
+- Preserve componentes, estilos, temas e navegação existentes. A interface recebida na branch feat/frontend-crm-ui está em apps/web; preserve sua identidade visual. Os dados fictícios foram removidos por solicitação do usuário: não reintroduza fixtures na aplicação; mantenha estados vazios até existir persistência real.
 - Mantenha frontend e backend na mesma aplicação Next.js. Não adicione API separada, microserviços ou dependências sem caso concreto.
 - Componentes da aplicação ficam em apps/web. Use packages/ui somente para primitivas compartilháveis reais.
 - Componentes React não acessam Prisma. Repositórios acessam dados, serviços concentram regras, Actions/Handlers validam entrada e autorização.

@@ -69,3 +69,7 @@ A separação DATABASE_URL/DIRECT_URL e a migration de proteção passaram por l
 O bootstrap real foi concluído e o vínculo OWNER/senha Argon2id foram verificados sem exibir credenciais. O runtime passou a aceitar DATABASE_SSL_CA como PEM por ambiente, sem depender do caminho local do certificado. A conexão desse formato foi validada por leitura no Supabase: usuário/organização existentes e tabelas de identidade protegidas. O arquivo local .env.vercel contém somente as variáveis necessárias à publicação e está ignorado pelo Git.
 
 Lint, typecheck, 30 testes unitários, sete testes de integração em PostgreSQL temporário, build e autenticação HTTP foram executados para essa configuração. A publicação e o domínio Vercel ainda não foram configurados por esta execução.
+
+## Remoção dos dados fictícios
+
+Os três arquivos de fixtures comerciais foram removidos. Listas, relatórios e gráficos retornam estados vazios; métricas sem dados não exibem números/variações inventados. O dashboard usa a identidade e organização reais, sem nome ou data fixa. Não houve exclusão no PostgreSQL. O teste HTTP verifica a ausência de exemplos em todas as páginas e notFound para o antigo ID de empresa fictícia.

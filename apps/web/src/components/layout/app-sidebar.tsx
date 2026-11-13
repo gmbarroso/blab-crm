@@ -78,8 +78,8 @@ export function AppSidebar() {
         <div className="flex items-start gap-2 rounded-lg border border-dashed p-3 text-xs leading-relaxed text-muted-foreground group-data-[collapsible=icon]:hidden">
           <FlaskConical className="mt-0.5 size-4 shrink-0 text-brand-violet" aria-hidden="true" />
           <p>
-            <span className="font-semibold text-foreground">Modo demonstração.</span> Os dados exibidos
-            são fictícios e nada é salvo.
+            <span className="font-semibold text-foreground">Módulos em preparação.</span> Os cadastros
+            comerciais ainda não estão disponíveis.
           </p>
         </div>
       </SidebarFooter>
