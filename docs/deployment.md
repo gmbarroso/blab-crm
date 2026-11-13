@@ -1,0 +1,72 @@
+# Publicação e uso real: Supabase + Vercel
+
+## O que fica disponível nesta entrega
+
+A aplicação pode ser publicada com autenticação e organização reais. O banco contém somente User, Organization e OrganizationMember. As páginas comerciais são uma demonstração de interface: leads, empresas, contatos, oportunidades, atividades, métricas e relatórios ainda vêm de arquivos em `apps/web/src/lib/mock`. Os formulários mostram que nada é salvo.
+
+Não basta conectar o banco para começar a cadastrar negócios reais. A próxima fase precisa criar os modelos/migrations e os casos de uso comerciais, com validação, autorização por organização e testes. Não importe os dados fictícios para produção.
+
+## 1. Criar o banco no Supabase
+
+Crie um projeto Supabase dedicado ao ambiente. A aplicação utiliza o PostgreSQL via Prisma e Auth.js; usuários são registros na tabela User, não contas do Supabase Auth. Não são necessárias chaves públicas/anon do SDK Supabase.
+
+No painel Connect, obtenha as strings adequadas: runtime serverless via pooler e migrations/bootstrap via conexão direta ou Session Pooler compatível com a rede. A conexão direta pode exigir IPv6; use as opções indicadas pelo painel. Preserve os requisitos TLS do provedor. Para este projeto, que acessa dados apenas por Prisma no servidor, desative a Data API nas configurações do Supabase para não expor tabelas, incluindo hashes de senha. Utilize credenciais PostgreSQL próprias para a aplicação conforme o guia oficial.
+
+Referência: [Prisma no Supabase](https://supabase.com/docs/guides/database/prisma).
+
+## 2. Criar as tabelas e o primeiro usuário
+
+Em um computador confiável, clone o repositório, instale as dependências e copie `.env.example` para `.env`. Configure DATABASE_URL com a conexão para migrations/bootstrap do projeto correto. Não publique esse arquivo ou envie senhas em conversas.
+
+```bash
+pnpm install --frozen-lockfile
+pnpm db:generate
+pnpm db:migrate:deploy
+```
+
+Configure em `.env` o nome, e-mail e uma senha longa nas variáveis BOOTSTRAP_ADMIN_* e execute:
+
+```bash
+pnpm bootstrap
+```
+
+O comando cria a organização B.lab e o usuário OWNER. Remova as variáveis de bootstrap após executar. Reexecuções não redefinem senhas. Nunca use migrate dev, reset ou db push como procedimento de implantação em produção. As migrations ficam fora do build Vercel.
+
+## 3. Publicar na Vercel
+
+Importe `gmbarroso/blab-crm`. Configure:
+
+| Campo | Valor |
+| --- | --- |
+| Production Branch | main |
+| Framework | Next.js |
+| Root Directory | apps/web |
+| Arquivos fora do Root Directory | Habilitados |
+| Node.js | 22.x |
+| Install Command | pnpm install --frozen-lockfile |
+| Build Command | cd ../.. && pnpm build |
+| Output Directory | Padrão Next.js |
+
+Variáveis de Production:
+
+- DATABASE_URL: conexão runtime ao PostgreSQL do Supabase, usando pooling adequado ao ambiente serverless.
+- AUTH_SECRET: gere um segredo novo com `openssl rand -base64 48` e armazene-o na Vercel; não o altere entre deploys sem intenção de invalidar sessões.
+- AUTH_URL: `https://crm.blabti.com` quando o domínio estiver configurado; inicialmente pode usar a origem Vercel escolhida para validar.
+
+Vercel é detectada como proxy confiável pelo Auth.js. Não publique variáveis BOOTSTRAP_ADMIN_* no runtime. Use banco e segredo separados para Preview e Production. Configure limitação de tentativas de login no firewall/proxy antes de liberar o acesso público. O build utiliza next/font e precisa baixar as fontes Google.
+
+Referência: [Turborepo na Vercel](https://vercel.com/docs/monorepos/turborepo).
+
+## 4. Conectar crm.blabti.com
+
+Adicione `crm.blabti.com` em Settings → Domains do projeto Vercel. No provedor de DNS de blabti.com, crie o registro CNAME `crm` com o destino exato informado pelo painel da Vercel. Aguarde a validação e a emissão HTTPS, ajuste AUTH_URL e faça novo deploy para aplicar a variável. O banco continua acessado apenas pelo servidor; não precisa de subdomínio público próprio.
+
+Referência: [Domínio na Vercel](https://vercel.com/docs/domains/set-up-custom-domain).
+
+## 5. Validar e planejar a operação comercial
+
+Acesse o domínio, confirme que /dashboard exige login, entre com o OWNER, confira seu nome e a organização B.lab, navegue pelas páginas identificadas como demonstração e teste Sair. Não use os formulários demonstrativos para armazenar informações reais: não há persistência comercial nesta fase.
+
+Para uso comercial, a próxima entrega deve implementar primeiro o módulo de leads com tabelas e índices por organização, repositórios/serviços, criação/edição/exclusão autorizadas e integração da tela existente. Empresas, contatos, oportunidades e atividades seguem em etapas próprias. A administração de usuários e recuperação de senha também não estão disponíveis ainda.
+
+Nenhum projeto Supabase/Vercel ou registro DNS foi criado automaticamente nesta revisão. A configuração exige acesso às contas e aos ambientes reais.

@@ -22,3 +22,7 @@ Foi solicitado o caminho/repositório original ao usuário. A implementação av
 ## Quando o v0 estiver disponível
 
 Inventariar package.json, lockfile, aliases, app router, estilos globais, assets, fontes, temas, bibliotecas e componentes antes de mover arquivos. Comparar versões com o lockfile atual e resolver conflitos caso a caso. Mover o app para apps/web/src e public para apps/web/public; ajustar imports e configs preservando o design. Manter componentes específicos no app, separar demonstrativos e envolver páginas privadas com os guards existentes. Testar navegação, temas e breakpoints com referências originais. Só substituir o shell mínimo após essa comparação. Não é possível afirmar preservação visual sem os arquivos de origem.
+
+## Interface recebida e integração
+
+A branch `feat/frontend-crm-ui` trouxe os fontes visuais no commit `44bf601`, já dentro de apps/web. A revisão para merge preservou os componentes e assets recebidos, reforçou autorização em cada página privada e metadata de empresas, conectou Configurações à identidade/organização da sessão e atualizou a integração HTTP para o dashboard e todas as rotas visuais. Os fixtures comerciais permanecem em lib/mock e os formulários são explicitamente demonstrativos. Não foram adicionados modelos ou CRUD comerciais.

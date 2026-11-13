@@ -9,7 +9,7 @@ Monólito modular full-stack em `apps/web`: React Server Components, Server Acti
 - `@blab/types`: roles e permissões sem código de banco, seguros para consumidores de interface.
 - `@blab/config`: base TypeScript estrita.
 
-Não existe aplicação v0 no material recebido. As telas mínimas não representam reconstrução do design original. Quando os fontes estiverem disponíveis, seguir `migration-plan.md` e preservar identidade, temas, componentes e dados demonstrativos isolados.
+A interface v0 foi recebida na branch `feat/frontend-crm-ui` e reside em `apps/web`. Sidebar, header, temas claro/escuro, componentes e páginas usam os fontes recebidos. Não houve redesign durante a revisão da integração. O controle de acesso é real, enquanto as telas comerciais são demonstrações identificadas; fixtures ficam em `lib/mock` e são lidas por `lib/data.ts`, que não acessa o banco. Cada página privada e o metadata de empresas validam `requireOrganization` antes de ler dados, além do guard do layout. Configurações recebe identidade e organização reais do servidor; edição ainda é simulada.
 
 ## Fluxo de execução
 
@@ -28,7 +28,7 @@ Repositórios fazem queries concretas; serviços validam credenciais e vínculos
 
 Auth.js Credentials delega a `authenticateCredentials`. E-mail é normalizado; a senha mantém espaços e tem tamanho limitado. O serviço consulta o repositório e verifica Argon2id (64 MiB, três iterações, paralelismo um). Conta inexistente também executa verificação de um hash aleatório para reduzir diferenças de custo. As respostas inválidas não distinguem existência de conta. O hash nunca sai do serviço de autenticação.
 
-Credentials usa sessão JWT cifrada e cookies do Auth.js, com duração de oito horas. Não são necessários modelos Account/Session de OAuth ou adaptador de banco Auth.js para este fluxo. O token transporta o ID do usuário. O servidor reconsulta a identidade antes de permitir acesso privado; não aceita identidade enviada pelo formulário. POSTs de login e logout passam pelo fluxo CSRF do Auth.js/Server Actions. Redirect de login é fixo em `/` e de logout em `/login`, evitando destinos controlados pelo cliente.
+Credentials usa sessão JWT cifrada e cookies do Auth.js, com duração de oito horas. Não são necessários modelos Account/Session de OAuth ou adaptador de banco Auth.js para este fluxo. O token transporta o ID do usuário. O servidor reconsulta a identidade antes de permitir acesso privado; não aceita identidade enviada pelo formulário. POSTs de login e logout passam pelo fluxo CSRF do Auth.js/Server Actions. Redirect de login é fixo em `/dashboard` (a rota `/` também redireciona para `/dashboard`) e de logout em `/login`, evitando destinos controlados pelo cliente.
 
 `requireUser` redireciona visitantes para login. O layout protege a navegação; cada página, Action e Handler privado deve também chamar `requireOrganization` ou guard adequado, pois layouts não substituem autorização de operações. `getAuthenticatedUser` e contexto usam cache React apenas por renderização/requisição, sem cache persistente entre usuários. A rota pública de sessão do Auth.js contém somente identidade pública e expiração.
 

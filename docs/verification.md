@@ -43,8 +43,15 @@ A instalação reportou depreciação do ESLint 9; essa linha foi mantida por co
 
 ## Pendências externas
 
-- Fornecer os fontes originais do v0 para migração e validação visual.
 - Configurar PostgreSQL persistente e `.env` real.
 - Aplicar migration e executar bootstrap no ambiente desejado.
-- Disponibilizar repositório Git e configurar projeto/domínio/variáveis na Vercel.
+- Configurar projeto/domínio/variáveis na Vercel.
 - Configurar limitação de tentativas de login no proxy/firewall antes de exposição pública.
+
+## Revisão da integração da interface
+
+A interface do commit 44bf601 foi revisada na branch feat/frontend-crm-ui antes da integração à main. Os componentes e assets recebidos foram mantidos. Autorização por organização foi adicionada a todas as páginas privadas e ao metadata de detalhes de empresa. Configurações passou a mostrar nome, e-mail, organização e perfil da sessão real; salvamento continua demonstrativo.
+
+`pnpm install --frozen-lockfile`, `pnpm lint`, `pnpm typecheck` e `pnpm test` passaram. São 30 testes unitários, seis testes com PostgreSQL isolado e a validação HTTP do build Next.js real. A integração agora percorre as dez URLs privadas sem sessão, confirma acesso autenticado às páginas da interface e verifica a identificação dos dados de demonstração e o perfil real em Configurações, além de credenciais inválidas, sessão, CSRF e logout. O redirecionamento autenticado de / para /dashboard aceita o meta refresh de streaming do Next.js, validando o destino.
+
+Não foi feita comparação visual automatizada em navegador com o projeto v0 original. Não houve provisionamento, deploy ou conexão a Supabase de produção. Consulte [publicação e uso real](deployment.md) para as próximas etapas.
