@@ -77,3 +77,7 @@ Os três arquivos de fixtures comerciais foram removidos. Listas, relatórios e 
 ## Remoção dos avisos e ações simuladas
 
 Os textos de modo demonstração e os callbacks que simulavam cadastro/salvamento foram removidos. Formulários sem handler real não permitem envio; perfil, organização, preferências, notas e conclusão de atividades permanecem indisponíveis para edição. Tema e logout continuam funcionais, e os atalhos de perfil/preferências abrem Configurações. A etapa comercial "Demonstração apresentada" é uma classificação do pipeline e foi preservada. Nenhuma tabela ou registro real foi alterado.
+
+## Limpeza final dos avisos visuais
+
+Removidos o aviso do rodapé da sidebar e os marcadores de preparação dos cabeçalhos. Os recursos sem implementação continuam indisponíveis, sem ações simuladas.

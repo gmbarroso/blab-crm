@@ -6,7 +6,7 @@ import {
   OpportunitiesByStageChart,
   RevenueChart,
 } from '@/components/charts/crm-charts'
-import { ModuleStatus, PageContainer, PageHeader } from '@/components/shared/page-header'
+import { PageContainer, PageHeader } from '@/components/shared/page-header'
 import { SectionCard } from '@/components/shared/section-card'
 import { getReports } from '@/lib/data'
 
@@ -20,7 +20,6 @@ export default async function ReportsPage() {
   return (
     <PageContainer>
       <PageHeader
-        eyebrow={<ModuleStatus />}
         title="Relatórios"
         description="Os relatórios serão exibidos quando houver dados comerciais."
       />

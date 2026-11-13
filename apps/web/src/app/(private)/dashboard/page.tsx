@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react'
 import { LeadsBySourceChart, RevenueChart } from '@/components/charts/crm-charts'
 import { ActivityCard } from '@/components/shared/activity-card'
 import { MetricCard } from '@/components/shared/metric-card'
-import { ModuleStatus, PageContainer, PageHeader } from '@/components/shared/page-header'
+import { PageContainer, PageHeader } from '@/components/shared/page-header'
 import { SectionCard } from '@/components/shared/section-card'
 import { StatusBadge } from '@/components/shared/status-badge'
 import { Button } from '@/components/ui/button'
@@ -43,7 +43,6 @@ export default async function DashboardPage() {
   return (
     <PageContainer>
       <PageHeader
-        eyebrow={<ModuleStatus />}
         title={`Olá, ${user.name}`}
         description={`Visão geral de ${organization.name}. Ainda não há dados comerciais.`}
       />

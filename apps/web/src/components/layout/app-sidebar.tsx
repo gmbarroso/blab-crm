@@ -2,11 +2,9 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FlaskConical } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -74,15 +72,6 @@ export function AppSidebar() {
         <NavGroup label="Comercial" items={primaryNav} />
         <NavGroup label="Gestão" items={secondaryNav} />
       </SidebarContent>
-      <SidebarFooter>
-        <div className="flex items-start gap-2 rounded-lg border border-dashed p-3 text-xs leading-relaxed text-muted-foreground group-data-[collapsible=icon]:hidden">
-          <FlaskConical className="mt-0.5 size-4 shrink-0 text-brand-violet" aria-hidden="true" />
-          <p>
-            <span className="font-semibold text-foreground">Módulos em preparação.</span> Os cadastros
-            comerciais ainda não estão disponíveis.
-          </p>
-        </div>
-      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )
