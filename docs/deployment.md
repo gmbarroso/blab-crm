@@ -16,7 +16,7 @@ Referência: [Prisma no Supabase](https://supabase.com/docs/guides/database/pris
 
 ## 2. Criar as tabelas e o primeiro usuário
 
-Em um computador confiável, clone o repositório, instale as dependências e copie `.env.example` para `.env`. Configure DATABASE_URL com a conexão para migrations/bootstrap do projeto correto. Não publique esse arquivo ou envie senhas em conversas.
+Em um computador confiável, clone o repositório, instale as dependências e copie `.env.example` para `.env`. Configure DATABASE_URL com a conexão de runtime (Transaction Pooler) e DIRECT_URL com a conexão direta ou Session Pooler (porta 5432) do projeto correto. A CLI Prisma prioriza DIRECT_URL para migrations e Studio; se vazia, usa DATABASE_URL. O bootstrap usa DATABASE_URL pelo cliente da aplicação. Não publique esse arquivo ou envie senhas em conversas.
 
 ```bash
 pnpm install --frozen-lockfile
@@ -50,6 +50,7 @@ Importe `gmbarroso/blab-crm`. Configure:
 Variáveis de Production:
 
 - DATABASE_URL: conexão runtime ao PostgreSQL do Supabase, usando pooling adequado ao ambiente serverless.
+- DIRECT_URL: conexão direta/Session Pooler para comandos Prisma executados nesse ambiente; não é necessária ao runtime.
 - AUTH_SECRET: gere um segredo novo com `openssl rand -base64 48` e armazene-o na Vercel; não o altere entre deploys sem intenção de invalidar sessões.
 - AUTH_URL: `https://crm.blabti.com` quando o domínio estiver configurado; inicialmente pode usar a origem Vercel escolhida para validar.
 
@@ -70,3 +71,11 @@ Acesse o domínio, confirme que /dashboard exige login, entre com o OWNER, confi
 Para uso comercial, a próxima entrega deve implementar primeiro o módulo de leads com tabelas e índices por organização, repositórios/serviços, criação/edição/exclusão autorizadas e integração da tela existente. Empresas, contatos, oportunidades e atividades seguem em etapas próprias. A administração de usuários e recuperação de senha também não estão disponíveis ainda.
 
 Nenhum projeto Supabase/Vercel ou registro DNS foi criado automaticamente nesta revisão. A configuração exige acesso às contas e aos ambientes reais.
+
+## TLS e proteção das tabelas de identidade
+
+As tabelas User, Organization e OrganizationMember têm RLS habilitada e não concedem acesso às roles públicas anon/authenticated. O Prisma acessa pelo servidor com credenciais PostgreSQL autorizadas. Isso não integra Auth.js às políticas de Supabase Auth.
+
+Se o pooler retornar SELF_SIGNED_CERT_IN_CHAIN, obtenha a CA oficial na seção SSL Configuration do Supabase e configure o cliente para verificá-la. No ambiente local desta configuração, a CA fica em `.certs/supabase-ca.crt`, fora do Git. A conexão de runtime pg usa `sslmode=verify-full` e `sslrootcert` com o caminho do certificado; a CLI Prisma usa `sslmode=require`, `sslaccept=strict` e `sslcert` apontando à CA. As opções dos dois drivers são diferentes. Não desative a verificação TLS como solução.
+
+Caminhos absolutos locais de certificado não funcionam na Vercel. Antes de publicar, disponibilize a CA no ambiente de implantação e ajuste os caminhos/conexões para esse ambiente. Não copie as URLs locais com caminhos de arquivo sem essa adaptação. Referências: [SSL no Supabase](https://supabase.com/docs/guides/platform/ssl-enforcement) e [TLS nos drivers Prisma/pg](https://www.prisma.io/postgres/ssl-connection-error).

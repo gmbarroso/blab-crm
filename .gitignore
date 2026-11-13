@@ -9,3 +9,6 @@ packages/database/src/generated/
 *.tsbuildinfo
 playwright-report/
 test-results/
+
+# Certificados locais usados pelas conexões de desenvolvimento.
+.certs/

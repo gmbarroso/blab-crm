@@ -43,6 +43,7 @@ Preencha `AUTH_SECRET` com o segredo gerado. Configure `DATABASE_URL` com uma in
 | Variável | Uso |
 | --- | --- |
 | `DATABASE_URL` | PostgreSQL; validada quando o banco é acessado |
+| `DIRECT_URL` | Opcional: conexão direta/Session Pooler usada pela CLI Prisma; se vazia, usa DATABASE_URL |
 | `AUTH_SECRET` | Segredo com pelo menos 32 caracteres; obrigatório ao usar autenticação |
 | `AUTH_URL` | Origem pública, como `http://localhost:3000`; validada quando fornecida |
 | `AUTH_TRUST_HOST` | Opcional; `true` somente atrás de proxy com Host confiável. Vercel é detectada automaticamente |
@@ -104,7 +105,7 @@ pnpm build
 pnpm test:integration
 ```
 
-A integração exige binários PostgreSQL 16 (`initdb`, `pg_ctl`, `createdb`), usuário sem privilégios root e portas locais liberadas. Por padrão usa `/usr/lib/postgresql/16/bin`; defina `PG_BIN` para outro caminho. O runner **não lê `.env` nem utiliza DATABASE_URL externa**: cria cluster, banco, credenciais e segredo temporários; aplica a migration duas vezes; executa bootstrap e testes de constraints/idempotência e isolamento real entre organizações; faz build e sobe Next.js para testar os endpoints Auth.js por HTTP, cookies, redirects, CSRF, login e logout. No encerramento normal ou em falhas tratadas, para os processos e remove o cluster temporário. Não execute em paralelo com `pnpm dev` ou outro build, pois compartilham `.next`.
+A integração exige binários PostgreSQL 16 (`initdb`, `pg_ctl`, `createdb`), usuário sem privilégios root e portas locais liberadas. Por padrão usa `/usr/lib/postgresql/16/bin`; defina `PG_BIN` para outro caminho. O runner **não lê `.env` nem utiliza DATABASE_URL ou DIRECT_URL externas**: cria cluster, banco, credenciais e segredo temporários; aplica a migration duas vezes; executa bootstrap e testes de constraints/idempotência e isolamento real entre organizações; faz build e sobe Next.js para testar os endpoints Auth.js por HTTP, cookies, redirects, CSRF, login e logout. No encerramento normal ou em falhas tratadas, para os processos e remove o cluster temporário. Não execute em paralelo com `pnpm dev` ou outro build, pois compartilham `.next`.
 
 ## Deploy na Vercel
 

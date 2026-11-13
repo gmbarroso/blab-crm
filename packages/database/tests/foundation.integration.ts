@@ -9,6 +9,11 @@ const input = { BOOTSTRAP_ADMIN_NAME: "Admin Teste", BOOTSTRAP_ADMIN_EMAIL: "adm
 beforeAll(async () => { await bootstrap(database, input); });
 afterAll(async () => { await database.$disconnect(); });
 describe("fundação em PostgreSQL isolado", () => {
+  it("ativa RLS nas tabelas de identidade sem abrir políticas para a API pública", async () => {
+    const tables = await database.$queryRaw<Array<{ relname: string; relrowsecurity: boolean }>>`SELECT relname, relrowsecurity FROM pg_class WHERE oid IN ('public."User"'::regclass, 'public."Organization"'::regclass, 'public."OrganizationMember"'::regclass)`;
+    expect(tables).toHaveLength(3);
+    expect(tables.every((table) => table.relrowsecurity)).toBe(true);
+  });
   it("bootstrap é idempotente e não troca a senha", async () => {
     const first = await database.user.findUniqueOrThrow({ where: { email: input.BOOTSTRAP_ADMIN_EMAIL } });
     await bootstrap(database, { ...input, BOOTSTRAP_ADMIN_PASSWORD: "Outra senha segura 123!" });
