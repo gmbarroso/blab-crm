@@ -44,6 +44,7 @@ Preencha `AUTH_SECRET` com o segredo gerado. Configure `DATABASE_URL` com uma in
 | --- | --- |
 | `DATABASE_URL` | PostgreSQL; validada quando o banco é acessado |
 | `DIRECT_URL` | Opcional: conexão direta/Session Pooler usada pela CLI Prisma; se vazia, usa DATABASE_URL |
+| `DATABASE_SSL_CA` | Opcional: conteúdo PEM da CA para TLS verificado, sem arquivo local; aceita quebras de linha ou \n literais |
 | `AUTH_SECRET` | Segredo com pelo menos 32 caracteres; obrigatório ao usar autenticação |
 | `AUTH_URL` | Origem pública, como `http://localhost:3000`; validada quando fornecida |
 | `AUTH_TRUST_HOST` | Opcional; `true` somente atrás de proxy com Host confiável. Vercel é detectada automaticamente |

@@ -3,6 +3,7 @@
   "globalEnv": [
     "DATABASE_URL",
     "DIRECT_URL",
+    "DATABASE_SSL_CA",
     "AUTH_SECRET",
     "AUTH_URL",
     "AUTH_TRUST_HOST"

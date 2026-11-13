@@ -66,7 +66,7 @@ try {
   const webPort = await freePort();
   base = `http://localhost:${webPort}`;
   // Sempre cria um cluster novo; não carrega .env nem aceita DATABASE_URL externa.
-  const env = { ...process.env, DATABASE_URL: `postgresql://blab_test:${password}@127.0.0.1:${pgPort}/${databaseName}`, DIRECT_URL: `postgresql://blab_test:${password}@127.0.0.1:${pgPort}/${databaseName}`, AUTH_SECRET: randomBytes(48).toString("base64url"), AUTH_URL: base, AUTH_TRUST_HOST: "true", BLAB_ISOLATED_TEST: "1", BOOTSTRAP_ADMIN_NAME: "Admin Teste", BOOTSTRAP_ADMIN_EMAIL: "admin@example.test", BOOTSTRAP_ADMIN_PASSWORD: randomBytes(32).toString("base64url"), NEXT_TELEMETRY_DISABLED: "1" };
+  const env = { ...process.env, DATABASE_URL: `postgresql://blab_test:${password}@127.0.0.1:${pgPort}/${databaseName}`, DIRECT_URL: `postgresql://blab_test:${password}@127.0.0.1:${pgPort}/${databaseName}`, AUTH_SECRET: randomBytes(48).toString("base64url"), AUTH_URL: base, AUTH_TRUST_HOST: "true", BLAB_ISOLATED_TEST: "1", BOOTSTRAP_ADMIN_NAME: "Admin Teste", BOOTSTRAP_ADMIN_EMAIL: "admin@example.test", BOOTSTRAP_ADMIN_PASSWORD: randomBytes(32).toString("base64url"), DATABASE_SSL_CA: "", NEXT_TELEMETRY_DISABLED: "1" };
   await run(join(pgBin, "initdb"), ["-D", data, "-U", "blab_test", "--auth-local=trust", "--auth-host=scram-sha-256", `--pwfile=${pwfile}`, "--no-locale", "--encoding=UTF8"]);
   await run(join(pgBin, "pg_ctl"), ["-D", data, "-l", join(temporary, "postgres.log"), "-o", `-p ${pgPort} -h 127.0.0.1 -k ${join(temporary, "socket")}`, "-w", "start"]);
   pgStarted = true;
