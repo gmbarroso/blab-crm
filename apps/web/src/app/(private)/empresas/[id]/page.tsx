@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Globe, MapPin } from 'lucide-react'
 import { CompanyDetailTabs } from '@/components/companies/company-detail-tabs'
-import { DemoBadge, PageContainer, PageHeader } from '@/components/shared/page-header'
+import { ModuleStatus, PageContainer, PageHeader } from '@/components/shared/page-header'
 import { Button } from '@/components/ui/button'
 import { getCompany, getCompanyDetail } from '@/lib/data'
 import { initials } from '@/lib/format'
@@ -35,7 +35,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
         </span>
         <PageHeader
           className="flex-1"
-          eyebrow={<DemoBadge />}
+          eyebrow={<ModuleStatus />}
           title={company.name}
           description={`${company.segment} · ${company.employees}`}
         />

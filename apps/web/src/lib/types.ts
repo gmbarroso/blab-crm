@@ -104,6 +104,6 @@ export interface Metric {
   id: string
   label: string
   value: string
-  change: number
+  change: number | null
   hint: string
 }

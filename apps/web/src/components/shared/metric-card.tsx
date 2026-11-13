@@ -9,10 +9,10 @@ export function MetricCard({
 }: {
   label: string
   value: string
-  change: number
+  change: number | null
   hint: string
 }) {
-  const positive = change >= 0
+  const positive = change !== null && change >= 0
   const Arrow = positive ? ArrowUpRight : ArrowDownRight
 
   return (
@@ -20,7 +20,7 @@ export function MetricCard({
       <p className="text-sm font-medium text-muted-foreground">{label}</p>
       <p className="font-mono text-2xl font-semibold tracking-tight tabular-nums">{value}</p>
       <div className="flex items-center gap-2 text-xs">
-        <span
+        {change !== null && <span
           className={cn(
             'inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 font-semibold tabular-nums',
             positive ? 'bg-success/12 text-success' : 'bg-destructive/10 text-destructive',
@@ -29,7 +29,7 @@ export function MetricCard({
           <Arrow className="size-3" aria-hidden="true" />
           {positive ? '+' : ''}
           {change.toLocaleString('pt-BR')}%
-        </span>
+        </span>}
         <span className="text-muted-foreground">{hint}</span>
       </div>
     </div>

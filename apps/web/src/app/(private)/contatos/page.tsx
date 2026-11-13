@@ -1,7 +1,7 @@
 import { requireOrganization } from "@/server/auth/session";
 import type { Metadata } from 'next'
 import { ContactsView } from '@/components/contacts/contacts-view'
-import { DemoBadge, PageContainer, PageHeader } from '@/components/shared/page-header'
+import { ModuleStatus, PageContainer, PageHeader } from '@/components/shared/page-header'
 import { getContacts } from '@/lib/data'
 
 export const metadata: Metadata = { title: 'Contatos' }
@@ -12,7 +12,7 @@ export default async function ContactsPage() {
   return (
     <PageContainer>
       <PageHeader
-        eyebrow={<DemoBadge />}
+        eyebrow={<ModuleStatus />}
         title="Contatos"
         description="Pessoas de contato nas empresas que você atende."
       />

@@ -61,8 +61,8 @@ function Field({ id, label, ...props }: { id: string; label: string } & React.Co
 }
 
 const PREFERENCES = [
-  { id: 'pref-email', label: 'Resumo diário por e-mail', description: 'Receba as atividades do dia às 8h.', defaultChecked: true },
-  { id: 'pref-overdue', label: 'Alertas de atividades atrasadas', description: 'Notificação quando um prazo vencer.', defaultChecked: true },
+  { id: 'pref-email', label: 'Resumo diário por e-mail', description: 'Receba as atividades do dia às 8h.', defaultChecked: false },
+  { id: 'pref-overdue', label: 'Alertas de atividades atrasadas', description: 'Notificação quando um prazo vencer.', defaultChecked: false },
   { id: 'pref-pipeline', label: 'Movimentações no pipeline', description: 'Aviso quando uma oportunidade mudar de etapa.', defaultChecked: false },
   { id: 'pref-compact', label: 'Tabelas compactas', description: 'Reduz o espaçamento das listagens.', defaultChecked: false },
 ]

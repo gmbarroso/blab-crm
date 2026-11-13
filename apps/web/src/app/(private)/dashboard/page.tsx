@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react'
 import { LeadsBySourceChart, RevenueChart } from '@/components/charts/crm-charts'
 import { ActivityCard } from '@/components/shared/activity-card'
 import { MetricCard } from '@/components/shared/metric-card'
-import { DemoBadge, PageContainer, PageHeader } from '@/components/shared/page-header'
+import { ModuleStatus, PageContainer, PageHeader } from '@/components/shared/page-header'
 import { SectionCard } from '@/components/shared/section-card'
 import { StatusBadge } from '@/components/shared/status-badge'
 import { Button } from '@/components/ui/button'
@@ -32,7 +32,7 @@ function SeeAll({ href, label }: { href: string; label: string }) {
 }
 
 export default async function DashboardPage() {
-  await requireOrganization();
+  const { user, organization } = await requireOrganization();
   const [metrics, opportunities, activities, reports] = await Promise.all([
     getDashboardMetrics(),
     getRecentOpportunities(5),
@@ -43,9 +43,9 @@ export default async function DashboardPage() {
   return (
     <PageContainer>
       <PageHeader
-        eyebrow={<DemoBadge />}
-        title="Bom dia, Ana"
-        description="Resumo comercial da B.lab Studio em 12 de novembro de 2026."
+        eyebrow={<ModuleStatus />}
+        title={`Olá, ${user.name}`}
+        description={`Visão geral de ${organization.name}. Ainda não há dados comerciais.`}
       />
 
       <section aria-label="Indicadores comerciais" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -74,6 +74,7 @@ export default async function DashboardPage() {
           className="lg:col-span-2"
           contentClassName="pt-3"
         >
+          {activities.length === 0 && <p className="py-6 text-sm text-muted-foreground">Nenhuma atividade agendada.</p>}
           <ul className="flex flex-col divide-y">
             {activities.map((activity) => (
               <li key={activity.id} className="py-3 first:pt-0 last:pb-0">
@@ -89,6 +90,7 @@ export default async function DashboardPage() {
           className="lg:col-span-3"
           contentClassName="px-0 pt-3 pb-2"
         >
+          {opportunities.length === 0 && <p className="px-5 py-6 text-sm text-muted-foreground">Nenhuma oportunidade cadastrada.</p>}
           <ul className="flex flex-col divide-y">
             {opportunities.map((opp) => (
               <li key={opp.id} className="flex items-center gap-3 px-5 py-3">

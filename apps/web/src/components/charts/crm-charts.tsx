@@ -11,6 +11,10 @@ import {
 } from '@/components/ui/chart'
 import { formatCompactCurrency, formatCurrency } from '@/lib/format'
 
+function EmptyChart({ className }: { className?: string }) {
+  return <div className={`flex items-center justify-center rounded-lg border border-dashed text-sm text-muted-foreground ${className ?? 'h-56 w-full'}`}>Sem dados para exibir.</div>
+}
+
 const revenueConfig = {
   ganho: { label: 'Ganho', color: 'var(--chart-1)' },
   previsto: { label: 'Previsto', color: 'var(--chart-2)' },
@@ -23,6 +27,7 @@ export function RevenueChart({
   data: { month: string; ganho: number; previsto: number }[]
   className?: string
 }) {
+  if (data.length === 0) return <EmptyChart className={className} />
   return (
     <ChartContainer config={revenueConfig} className={className}>
       <AreaChart data={data} margin={{ left: 4, right: 8, top: 8 }}>
@@ -86,6 +91,7 @@ export function LeadsBySourceChart({
   data: { source: string; leads: number }[]
   className?: string
 }) {
+  if (data.length === 0) return <EmptyChart className={className} />
   return (
     <ChartContainer config={sourceConfig} className={className}>
       <BarChart data={data} layout="vertical" margin={{ left: 0, right: 16 }}>
@@ -111,6 +117,7 @@ const conversionConfig = {
 } satisfies ChartConfig
 
 export function ConversionTrendChart({ data }: { data: { month: string; taxa: number }[] }) {
+  if (data.length === 0) return <EmptyChart />
   return (
     <ChartContainer config={conversionConfig} className="h-56 w-full">
       <LineChart data={data} margin={{ left: 4, right: 8, top: 8 }}>
@@ -154,6 +161,7 @@ export function OpportunitiesByStageChart({
 }: {
   data: { stage: string; quantidade: number; valor: number }[]
 }) {
+  if (data.length === 0) return <EmptyChart className="h-72 w-full" />
   return (
     <ChartContainer config={stageConfig} className="h-72 w-full">
       <BarChart data={data} margin={{ left: 0, right: 8, top: 8 }}>

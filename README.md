@@ -2,7 +2,7 @@
 
 Fundação de um SaaS de gerenciamento comercial da B.lab. Fase 1: autenticação, organizações e infraestrutura. Nenhum CRUD comercial foi implementado.
 
-> A interface v0 foi recebida na branch `feat/frontend-crm-ui` e integrada ao monorepo. Login, sessão e vínculo organizacional são reais. Dashboard, leads, empresas, contatos, pipeline, atividades e relatórios usam dados de demonstração isolados em `apps/web/src/lib/mock`; os formulários comerciais não gravam no banco. Conectar um PostgreSQL não transforma esses módulos em CRUD real.
+> A interface v0 foi recebida na branch `feat/frontend-crm-ui` e integrada ao monorepo. Login, sessão e vínculo organizacional são reais. Os dados fictícios foram removidos. Dashboard, leads, empresas, contatos, pipeline, atividades e relatórios exibem estados vazios; os formulários comerciais ainda não gravam no banco. Conectar um PostgreSQL não transforma esses módulos em CRUD real.
 
 ## Tecnologias e estrutura
 
@@ -124,7 +124,7 @@ Nenhuma conta Vercel, domínio ou banco externo foi provisionado nesta entrega. 
 
 ## Limitações da fase
 
-A interface comercial ainda é uma demonstração: não há modelos ou operações de persistência para leads, empresas, contatos, oportunidades ou atividades. Os perfis e nomes da sessão são reais, inclusive em Configurações; as edições de perfil/organização/preferências ainda são simuladas.
+Os módulos comerciais estão vazios e em preparação: não há modelos ou operações de persistência para leads, empresas, contatos, oportunidades ou atividades. Os perfis e nomes da sessão são reais, inclusive em Configurações; as edições de perfil/organização/preferências ainda são simuladas.
 
 A organização ativa é o primeiro vínculo válido por `createdAt`, com `id` como desempate. Não há seletor, convites, cadastro, recuperação de senha ou administração de usuários. A sessão JWT dura oito horas; o acesso privado revalida a existência do usuário e o vínculo no banco em cada requisição. Alterar a senha não revoga JWTs existentes automaticamente; remoção de usuário/vínculo bloqueia os dados privados imediatamente. Evoluções de revogação de sessões e proteção contra tentativas distribuídas ficam para a etapa de endurecimento operacional.
 

@@ -2,7 +2,7 @@
 
 ## O que fica disponível nesta entrega
 
-A aplicação pode ser publicada com autenticação e organização reais. O banco contém somente User, Organization e OrganizationMember. As páginas comerciais são uma demonstração de interface: leads, empresas, contatos, oportunidades, atividades, métricas e relatórios ainda vêm de arquivos em `apps/web/src/lib/mock`. Os formulários mostram que nada é salvo.
+A aplicação pode ser publicada com autenticação e organização reais. O banco contém somente User, Organization e OrganizationMember. Os dados fictícios foram removidos: listas e gráficos comerciais exibem estados vazios. Os formulários ainda informam que nada é salvo; a persistência comercial permanece pendente.
 
 Não basta conectar o banco para começar a cadastrar negócios reais. A próxima fase precisa criar os modelos/migrations e os casos de uso comerciais, com validação, autorização por organização e testes. Não importe os dados fictícios para produção.
 
@@ -69,7 +69,7 @@ Referência: [Domínio na Vercel](https://vercel.com/docs/domains/set-up-custom-
 
 ## 5. Validar e planejar a operação comercial
 
-Acesse o domínio, confirme que /dashboard exige login, entre com o OWNER, confira seu nome e a organização B.lab, navegue pelas páginas identificadas como demonstração e teste Sair. Não use os formulários demonstrativos para armazenar informações reais: não há persistência comercial nesta fase.
+Acesse o domínio, confirme que /dashboard exige login, entre com o OWNER, confira seu nome e a organização B.lab, navegue pelas páginas comerciais vazias e teste Sair. Não use os formulários demonstrativos para armazenar informações reais: não há persistência comercial nesta fase.
 
 Para uso comercial, a próxima entrega deve implementar primeiro o módulo de leads com tabelas e índices por organização, repositórios/serviços, criação/edição/exclusão autorizadas e integração da tela existente. Empresas, contatos, oportunidades e atividades seguem em etapas próprias. A administração de usuários e recuperação de senha também não estão disponíveis ainda.
 
