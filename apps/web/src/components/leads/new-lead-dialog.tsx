@@ -1,6 +1,5 @@
 'use client'
 
-import { toast } from 'sonner'
 import { FormDialog } from '@/components/shared/form-dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -12,7 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { DEMO_TOAST, SEGMENTS } from '@/lib/constants'
+import { SEGMENTS } from '@/lib/constants'
 
 const segmentItems = SEGMENTS.map((segment) => ({ value: segment, label: segment }))
 
@@ -30,14 +29,10 @@ export function NewLeadDialog({
       title="Novo lead"
       description="Cadastro rápido para registrar um novo contato comercial."
       submitLabel="Cadastrar lead"
-      onSubmit={async (data) => {
-        await new Promise((resolve) => setTimeout(resolve, 500))
-        toast.info(`Lead "${data.get('company')}" simulado`, { description: DEMO_TOAST })
-      }}
     >
       <div className="flex flex-col gap-2">
         <Label htmlFor="lead-company">Nome da empresa</Label>
-        <Input id="lead-company" name="company" required placeholder="Ex.: Café Tropeiro" autoComplete="organization" />
+        <Input id="lead-company" name="company" required placeholder="Nome da empresa" autoComplete="organization" />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-2">

@@ -9,7 +9,7 @@ export default async function SettingsPage() {
   const { user, organization, membership } = await requireOrganization()
   return (
     <PageContainer>
-      <PageHeader title="Configurações" description="Consulte seu perfil, organização e preferências. A edição ainda é demonstrativa." />
+      <PageHeader title="Configurações" description="Consulte seu perfil e organização e ajuste o tema da interface." />
       <SettingsView user={{ name: user.name, email: user.email }} organization={organization.name} role={membership.role} />
     </PageContainer>
   )

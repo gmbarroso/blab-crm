@@ -1,6 +1,6 @@
 'use client'
 
-import { FlaskConical, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,10 +13,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 
-/**
- * Generic form dialog. `onSubmit` receives the FormData and is where a real
- * API call will be plugged in later; today callers only show demo feedback.
- */
+/** Sem um handler real, o envio permanece indisponível. */
 export function FormDialog({
   open,
   onOpenChange,
@@ -31,7 +28,7 @@ export function FormDialog({
   title: string
   description?: string
   submitLabel?: string
-  onSubmit: (data: FormData) => void | Promise<void>
+  onSubmit?: (data: FormData) => void | Promise<void>
   children: React.ReactNode
 }) {
   const [pending, setPending] = useState(false)
@@ -43,6 +40,7 @@ export function FormDialog({
           className="flex flex-col gap-5"
           onSubmit={async (event) => {
             event.preventDefault()
+            if (!onSubmit) return
             setPending(true)
             await onSubmit(new FormData(event.currentTarget))
             setPending(false)
@@ -54,13 +52,9 @@ export function FormDialog({
             {description && <DialogDescription>{description}</DialogDescription>}
           </DialogHeader>
           <div className="flex flex-col gap-4">{children}</div>
-          <p className="flex items-center gap-2 rounded-lg bg-muted px-3 py-2 text-xs text-muted-foreground">
-            <FlaskConical className="size-3.5 shrink-0 text-brand-violet" aria-hidden="true" />
-            Modo demonstração: os dados não serão salvos.
-          </p>
           <DialogFooter>
             <DialogClose render={<Button type="button" variant="outline" />}>Cancelar</DialogClose>
-            <Button type="submit" disabled={pending}>
+            <Button type="submit" disabled={!onSubmit || pending} title={!onSubmit ? "Cadastro em preparação" : undefined}>
               {pending && <Loader2 className="animate-spin" data-icon="inline-start" />}
               {submitLabel}
             </Button>

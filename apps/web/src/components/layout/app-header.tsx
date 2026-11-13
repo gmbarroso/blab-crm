@@ -1,8 +1,7 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { Bell, LogOut, Search, Settings, User } from 'lucide-react'
-import { toast } from 'sonner'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -19,12 +18,8 @@ import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { findNavItem } from '@/components/layout/nav-config'
 import { ThemeToggle } from '@/components/layout/theme-toggle'
-import { DEMO_TOAST } from '@/lib/constants'
 import { logout } from '@/features/auth/actions'
 
-function demo() {
-  toast(DEMO_TOAST)
-}
 
 interface AppHeaderProps {
   user: { name: string; email: string }
@@ -42,6 +37,7 @@ function initials(name: string) {
 
 export function AppHeader({ user, organization }: AppHeaderProps) {
   const pathname = usePathname()
+  const router = useRouter()
   const current = findNavItem(pathname)
 
   return (
@@ -55,7 +51,6 @@ export function AppHeader({ user, organization }: AppHeaderProps) {
         className="relative ml-auto hidden w-full max-w-xs md:block"
         onSubmit={(event) => {
           event.preventDefault()
-          demo()
         }}
       >
         <label htmlFor="global-search" className="sr-only">
@@ -65,14 +60,14 @@ export function AppHeader({ user, organization }: AppHeaderProps) {
           className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground"
           aria-hidden="true"
         />
-        <Input id="global-search" placeholder="Buscar leads, empresas…" className="h-9 pl-8" />
+        <Input id="global-search" placeholder="Buscar leads, empresas…" className="h-9 pl-8" disabled title="Busca global em preparação" />
       </form>
 
       <div className="ml-auto flex items-center gap-1 md:ml-2">
-        <Button variant="ghost" size="icon" className="md:hidden" aria-label="Buscar" onClick={demo}>
+        <Button variant="ghost" size="icon" className="md:hidden" aria-label="Buscar" disabled title="Busca global em preparação">
           <Search />
         </Button>
-        <Button variant="ghost" size="icon" aria-label="Notificações" onClick={demo}>
+        <Button variant="ghost" size="icon" aria-label="Notificações" disabled title="Notificações em preparação">
           <Bell />
         </Button>
         <ThemeToggle />
@@ -102,10 +97,10 @@ export function AppHeader({ user, organization }: AppHeaderProps) {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={demo}>
+              <DropdownMenuItem onClick={() => router.push('/configuracoes')}>
                 <User /> Meu perfil
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={demo}>
+              <DropdownMenuItem onClick={() => router.push('/configuracoes')}>
                 <Settings /> Preferências
               </DropdownMenuItem>
             </DropdownMenuGroup>

@@ -2,7 +2,6 @@
 
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
-import { toast } from 'sonner'
 import { FormDialog } from '@/components/shared/form-dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,7 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { DEMO_TOAST, SEGMENTS } from '@/lib/constants'
+import { SEGMENTS } from '@/lib/constants'
 
 const segmentItems = SEGMENTS.map((segment) => ({ value: segment, label: segment }))
 const sizeItems = ['1–10', '11–50', '51–200', '201–500', '500+'].map((size) => ({
@@ -50,14 +49,10 @@ function NewCompanyDialog({
       title="Nova empresa"
       description="Cadastre uma conta de cliente ou prospect."
       submitLabel="Cadastrar empresa"
-      onSubmit={async (data) => {
-        await new Promise((resolve) => setTimeout(resolve, 500))
-        toast.info(`Empresa "${data.get('name')}" simulada`, { description: DEMO_TOAST })
-      }}
     >
       <div className="flex flex-col gap-2">
         <Label htmlFor="company-name">Nome da empresa</Label>
-        <Input id="company-name" name="name" required placeholder="Ex.: Studio Aurora" autoComplete="organization" />
+        <Input id="company-name" name="name" required placeholder="Nome da empresa" autoComplete="organization" />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-2">

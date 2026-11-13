@@ -1,14 +1,12 @@
 'use client'
 
 import { CalendarCheck, Check } from 'lucide-react'
-import { toast } from 'sonner'
 import { ActivityCard } from '@/components/shared/activity-card'
 import { EmptyState } from '@/components/shared/empty-state'
 import { ToneDot } from '@/components/shared/status-badge'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import type { Tone } from '@/lib/constants'
-import { DEMO_TOAST } from '@/lib/constants'
 import type { Activity } from '@/lib/types'
 
 type Item = Activity & { companyName: string }
@@ -50,7 +48,7 @@ export function ActivitiesView({ groups }: { groups: Record<GroupId, Item[]> }) 
                         <Button
                           variant="ghost"
                           size="icon-sm"
-                          onClick={() => toast.info('Conclusão simulada', { description: DEMO_TOAST })}
+                          disabled title="Conclusão de atividades em preparação"
                         >
                           <Check />
                           <span className="sr-only">Marcar “{activity.title}” como concluída</span>
