@@ -55,3 +55,11 @@ A interface do commit 44bf601 foi revisada na branch feat/frontend-crm-ui antes 
 `pnpm install --frozen-lockfile`, `pnpm lint`, `pnpm typecheck` e `pnpm test` passaram. São 30 testes unitários, seis testes com PostgreSQL isolado e a validação HTTP do build Next.js real. A integração agora percorre as dez URLs privadas sem sessão, confirma acesso autenticado às páginas da interface e verifica a identificação dos dados de demonstração e o perfil real em Configurações, além de credenciais inválidas, sessão, CSRF e logout. O redirecionamento autenticado de / para /dashboard aceita o meta refresh de streaming do Next.js, validando o destino.
 
 Não foi feita comparação visual automatizada em navegador com o projeto v0 original. Não houve provisionamento, deploy ou conexão a Supabase de produção. Consulte [publicação e uso real](deployment.md) para as próximas etapas.
+
+## Conexão ao Supabase e migrations reais
+
+Após o usuário configurar o .env local, a conexão ao projeto Supabase foi validada com TLS e CA Supabase. O schema public estava vazio. As migrations foundation e protect_identity_tables foram aplicadas explicitamente com pnpm db:migrate:deploy. A segunda habilita RLS nas tabelas de identidade e revoga acesso de PUBLIC/anon/authenticated, sem alterar a migration inicial.
+
+As credenciais e o certificado local não são versionados. O bootstrap administrativo continua pendente porque BOOTSTRAP_ADMIN_NAME, BOOTSTRAP_ADMIN_EMAIL e BOOTSTRAP_ADMIN_PASSWORD ainda não foram preenchidos. Nenhum usuário demonstrativo foi inserido no banco real. A publicação na Vercel permanece pendente.
+
+A separação DATABASE_URL/DIRECT_URL e a migration de proteção passaram por lint, typecheck, 30 testes unitários, sete testes em PostgreSQL temporário e pelos fluxos HTTP do build Next.js. O runner sobrescreve ambas as URLs para nunca usar o banco externo nos testes.
