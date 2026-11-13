@@ -2,7 +2,7 @@ import { requireOrganization } from "@/server/auth/session";
 import type { Metadata } from 'next'
 import { NewOpportunityButton } from '@/components/pipeline/new-opportunity-dialog'
 import { PipelineBoard } from '@/components/pipeline/pipeline-board'
-import { ModuleStatus, PageContainer, PageHeader } from '@/components/shared/page-header'
+import { PageContainer, PageHeader } from '@/components/shared/page-header'
 import { getCompanies, getPipelineColumns } from '@/lib/data'
 import { formatCurrency } from '@/lib/format'
 
@@ -23,7 +23,6 @@ export default async function PipelinePage() {
   return (
     <PageContainer className="max-w-none">
       <PageHeader
-        eyebrow={<ModuleStatus />}
         title="Pipeline"
         description={`${openCount} oportunidades em aberto · ${formatCurrency(openTotal)} estimados. Arrastar e soltar será habilitado na integração.`}
         actions={<NewOpportunityButton companies={companyOptions} owners={ownerOptions} />}

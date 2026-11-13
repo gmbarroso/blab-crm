@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react'
 import { DataTable, type DataTableColumn } from '@/components/shared/data-table'
 import { EmptyState } from '@/components/shared/empty-state'
 import { ALL, FilterBar, type FilterDefinition } from '@/components/shared/filter-bar'
-import { ModuleStatus, PageHeader } from '@/components/shared/page-header'
+import { PageHeader } from '@/components/shared/page-header'
 import { SearchInput } from '@/components/shared/search-input'
 import { StatusBadge } from '@/components/shared/status-badge'
 import { NewLeadDialog } from '@/components/leads/new-lead-dialog'
@@ -114,7 +114,6 @@ export function LeadsView({ leads }: { leads: Lead[] }) {
   return (
     <>
       <PageHeader
-        eyebrow={<ModuleStatus />}
         title="Leads"
         description="Acompanhe novos contatos e qualifique oportunidades antes de levá-las ao pipeline."
         actions={
