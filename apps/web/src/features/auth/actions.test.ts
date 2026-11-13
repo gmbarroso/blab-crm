@@ -21,7 +21,7 @@ it("preserva redirecionamento após login", async () => {
   const redirect = new Error("NEXT_REDIRECT");
   vi.mocked(signIn).mockRejectedValue(redirect);
   await expect(login({ error: "" }, form())).rejects.toBe(redirect);
-  expect(signIn).toHaveBeenCalledWith("credentials", { email: "ana@example.com", password: "senha", redirectTo: "/" });
+  expect(signIn).toHaveBeenCalledWith("credentials", { email: "ana@example.com", password: "senha", redirectTo: "/dashboard" });
 });
 it("logout encerra a sessão e direciona ao login", async () => {
   await logout(); expect(signOut).toHaveBeenCalledWith({ redirectTo: "/login" });
