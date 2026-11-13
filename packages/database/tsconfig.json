@@ -1,0 +1,9 @@
+{
+  "extends": "@blab/config/typescript",
+  "include": [
+    "src",
+    "scripts",
+    "tests",
+    "*.config.ts"
+  ]
+}

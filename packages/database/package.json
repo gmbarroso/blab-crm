@@ -1,0 +1,34 @@
+{
+  "name": "@blab/database",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./password": "./src/password.ts",
+    "./bootstrap": "./src/bootstrap.ts"
+  },
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:studio": "prisma studio",
+    "bootstrap": "tsx scripts/bootstrap.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src scripts tests *.config.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@prisma/client": "7.10.1",
+    "@prisma/adapter-pg": "7.10.1",
+    "argon2": "0.45.2",
+    "pg": "^8.16.0",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@blab/config": "workspace:*",
+    "@types/pg": "^8.15.0",
+    "prisma": "7.10.1",
+    "tsx": "^4.20.0"
+  }
+}

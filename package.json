@@ -1,0 +1,32 @@
+{
+  "name": "blab-crm",
+  "private": true,
+  "packageManager": "pnpm@10.20.0",
+  "engines": {
+    "node": ">=22.12.0 <23",
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "dev": "node scripts/with-env.mjs pnpm exec turbo dev",
+    "build": "node scripts/with-env.mjs pnpm exec turbo build",
+    "lint": "eslint scripts eslint.config.mjs && turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "test:integration": "node scripts/integration.mjs",
+    "db:generate": "pnpm --filter @blab/database db:generate",
+    "db:migrate:dev": "node scripts/with-env.mjs pnpm --filter @blab/database db:migrate:dev",
+    "db:migrate:deploy": "node scripts/with-env.mjs pnpm --filter @blab/database db:migrate:deploy",
+    "db:studio": "node scripts/with-env.mjs pnpm --filter @blab/database db:studio",
+    "bootstrap": "node scripts/with-env.mjs pnpm --filter @blab/database bootstrap",
+    "start": "node scripts/with-env.mjs pnpm --filter @blab/web start"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.0",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.39.0",
+    "turbo": "2.11.11",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.0",
+    "vitest": "5.1.0"
+  }
+}

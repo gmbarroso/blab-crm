@@ -1,0 +1,9 @@
+{
+  "extends": "@blab/config/typescript",
+  "compilerOptions": {
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src"
+  ]
+}

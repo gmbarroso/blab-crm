@@ -1,0 +1,11 @@
+import { existsSync } from "node:fs";
+import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
+const envPath = fileURLToPath(new URL("../.env", import.meta.url));
+if (existsSync(envPath)) process.loadEnvFile(envPath);
+const [command, ...args] = process.argv.slice(2);
+if (!command) throw new Error("Comando obrigatório");
+const child = spawn(command, args, { stdio: "inherit", env: process.env });
+for (const signal of ["SIGINT", "SIGTERM"]) process.on(signal, () => child.kill(signal));
+child.on("error", (error) => { console.error(error.message); process.exitCode = 1; });
+child.on("exit", (code) => { process.exitCode = code ?? 1; });
