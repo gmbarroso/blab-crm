@@ -1,3 +1,4 @@
+import { requireOrganization } from "@/server/auth/session";
 import type { Metadata } from 'next'
 import { ContactsView } from '@/components/contacts/contacts-view'
 import { DemoBadge, PageContainer, PageHeader } from '@/components/shared/page-header'
@@ -6,6 +7,7 @@ import { getContacts } from '@/lib/data'
 export const metadata: Metadata = { title: 'Contatos' }
 
 export default async function ContactsPage() {
+  await requireOrganization();
   const contacts = await getContacts()
   return (
     <PageContainer>

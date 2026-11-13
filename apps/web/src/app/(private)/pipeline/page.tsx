@@ -1,3 +1,4 @@
+import { requireOrganization } from "@/server/auth/session";
 import type { Metadata } from 'next'
 import { NewOpportunityButton } from '@/components/pipeline/new-opportunity-dialog'
 import { PipelineBoard } from '@/components/pipeline/pipeline-board'
@@ -8,6 +9,7 @@ import { formatCurrency } from '@/lib/format'
 export const metadata: Metadata = { title: 'Pipeline' }
 
 export default async function PipelinePage() {
+  await requireOrganization();
   const [columns, companies] = await Promise.all([getPipelineColumns(), getCompanies()])
   const open = columns.filter((c) => c.id !== 'ganho' && c.id !== 'perdido')
   const openTotal = open.reduce((sum, c) => sum + c.total, 0)

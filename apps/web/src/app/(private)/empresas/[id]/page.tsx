@@ -1,3 +1,4 @@
+import { requireOrganization } from "@/server/auth/session";
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -9,12 +10,14 @@ import { getCompany, getCompanyDetail } from '@/lib/data'
 import { initials } from '@/lib/format'
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  await requireOrganization();
   const { id } = await params
   const company = await getCompany(id)
   return { title: company?.name ?? 'Empresa' }
 }
 
 export default async function CompanyDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  await requireOrganization();
   const { id } = await params
   const detail = await getCompanyDetail(id)
   if (!detail) notFound()

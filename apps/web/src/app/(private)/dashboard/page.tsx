@@ -1,3 +1,4 @@
+import { requireOrganization } from "@/server/auth/session";
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
@@ -31,6 +32,7 @@ function SeeAll({ href, label }: { href: string; label: string }) {
 }
 
 export default async function DashboardPage() {
+  await requireOrganization();
   const [metrics, opportunities, activities, reports] = await Promise.all([
     getDashboardMetrics(),
     getRecentOpportunities(5),

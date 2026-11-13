@@ -1,3 +1,4 @@
+import { requireOrganization } from "@/server/auth/session";
 import type { Metadata } from 'next'
 import {
   ConversionTrendChart,
@@ -12,6 +13,7 @@ import { getReports } from '@/lib/data'
 export const metadata: Metadata = { title: 'Relatórios' }
 
 export default async function ReportsPage() {
+  await requireOrganization();
   const reports = await getReports()
   const funnelMax = Math.max(...reports.conversionFunnel.map((step) => step.value), 1)
 

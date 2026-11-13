@@ -1,5 +1,7 @@
+import { requireOrganization } from "@/server/auth/session";
 import { redirect } from "next/navigation";
 
-export default function HomePage() {
+export default async function HomePage() {
+  await requireOrganization();
   redirect("/dashboard");
 }

@@ -1,3 +1,4 @@
+import { requireOrganization } from "@/server/auth/session";
 import type { Metadata } from 'next'
 import { Plus } from 'lucide-react'
 import { ActivitiesView } from '@/components/activities/activities-view'
@@ -8,6 +9,7 @@ import { getActivityGroups } from '@/lib/data'
 export const metadata: Metadata = { title: 'Atividades' }
 
 export default async function ActivitiesPage() {
+  await requireOrganization();
   const groups = await getActivityGroups()
   return (
     <PageContainer>

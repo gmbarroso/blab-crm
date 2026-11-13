@@ -41,6 +41,19 @@ async function request(path, init = {}) {
   }
   return response;
 }
+async function assertRedirect(response, destination) {
+  if (response.status === 307) {
+    assert.equal(new URL(response.headers.get("location"), base).pathname, destination);
+    return;
+  }
+  // loading.tsx permite que redirects autenticados sejam enviados no HTML em streaming.
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  const meta = html.match(/<meta\b[^>]*http-equiv="refresh"[^>]*>/i)?.[0];
+  const target = meta?.match(/content="[^"]*url=([^"]+)"/i)?.[1];
+  assert(target, "Redirect em streaming deve conter meta refresh");
+  assert.equal(new URL(target, base).pathname, destination);
+}
 async function postWithCsrf(path, fields) {
   const { csrfToken } = await (await request("/api/auth/csrf")).json();
   return request(path, { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded", "X-Auth-Return-Redirect": "1" }, body: new URLSearchParams({ ...fields, csrfToken, callbackUrl: `${base}/` }) });
@@ -75,6 +88,12 @@ try {
     await new Promise((resolve) => setTimeout(resolve, 200));
   }
   assert(ready, "Servidor deve iniciar");
+  const privatePaths = ["/", "/dashboard", "/leads", "/empresas", "/empresas/cmp-01", "/contatos", "/pipeline", "/atividades", "/relatorios", "/configuracoes"];
+  for (const path of privatePaths) {
+    const denied = await request(path);
+    assert.equal(denied.status, 307, `Rota privada sem sessão: ${path}`);
+    assert.equal(new URL(denied.headers.get("location"), base).pathname, "/login");
+  }
   let response = await request("/");
   assert.equal(response.status, 307);
   assert.equal(new URL(response.headers.get("location"), base).pathname, "/login");
@@ -88,10 +107,19 @@ try {
   assert(session.user.id);
   assert(!JSON.stringify(session).includes("passwordHash"));
   response = await request("/");
+  await assertRedirect(response, "/dashboard");
+  response = await request("/dashboard");
   assert.equal(response.status, 200);
   const html = await response.text();
   assert(html.includes("Admin Teste"));
   assert(html.includes("B.lab"));
+  assert(html.includes("Dados de demonstração"));
+  for (const path of privatePaths.filter((path) => path !== "/")) {
+    assert.equal((await request(path)).status, 200, `Rota privada com sessão: ${path}`);
+  }
+  const settings = await (await request("/configuracoes")).text();
+  assert(settings.includes(env.BOOTSTRAP_ADMIN_EMAIL));
+  assert(!settings.includes("Ana Souza"));
   assert.equal((await request("/login")).status, 307);
   // Auth.js recusa signout sem CSRF e mantém a sessão.
   await request("/api/auth/signout", { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" }, body: new URLSearchParams({ callbackUrl: `${base}/login` }) });

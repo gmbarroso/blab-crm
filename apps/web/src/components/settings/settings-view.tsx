@@ -12,6 +12,8 @@ import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { DEMO_TOAST } from '@/lib/constants'
 import { cn } from '@/lib/utils'
+import { initials } from '@/lib/format'
+import type { OrganizationRole } from '@blab/types'
 
 function Panel({
   title,
@@ -71,7 +73,11 @@ const THEMES = [
   { value: 'system', label: 'Sistema', icon: Monitor },
 ]
 
-export function SettingsView() {
+export function SettingsView({ user, organization, role }: {
+  user: { name: string; email: string }
+  organization: string
+  role: OrganizationRole
+}) {
   const { theme, setTheme } = useTheme()
 
   return (
@@ -89,26 +95,26 @@ export function SettingsView() {
         <Panel title="Perfil" description="Suas informações pessoais exibidas para a equipe.">
           <div className="flex items-center gap-4">
             <Avatar size="lg">
-              <AvatarFallback className="bg-primary font-semibold text-primary-foreground">AS</AvatarFallback>
+              <AvatarFallback className="bg-primary font-semibold text-primary-foreground">{initials(user.name)}</AvatarFallback>
             </Avatar>
             <Button type="button" variant="outline" size="sm" disabled title="Disponível após integração">
               Alterar foto
             </Button>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field id="profile-name" label="Nome" defaultValue="Ana Souza" autoComplete="name" />
-            <Field id="profile-role" label="Cargo" defaultValue="Head Comercial" />
+            <Field id="profile-name" label="Nome" defaultValue={user.name} autoComplete="name" />
+            <Field id="profile-role" label="Perfil de acesso" value={{ OWNER: "Proprietário", ADMIN: "Administrador", MEMBER: "Membro" }[role]} readOnly />
           </div>
-          <Field id="profile-email" label="E-mail" type="email" defaultValue="ana@blab.com.br" autoComplete="email" />
+          <Field id="profile-email" label="E-mail" type="email" defaultValue={user.email} autoComplete="email" />
         </Panel>
       </TabsContent>
 
       <TabsContent value="organization" className="max-w-2xl">
         <Panel title="Organização" description="Dados da empresa usados no CRM.">
-          <Field id="org-name" label="Nome da organização" defaultValue="B.lab Studio" autoComplete="organization" />
+          <Field id="org-name" label="Nome da organização" defaultValue={organization} autoComplete="organization" />
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field id="org-doc" label="CNPJ" defaultValue="12.345.678/0001-90" inputMode="numeric" />
-            <Field id="org-site" label="Site" defaultValue="blab.com.br" />
+            <Field id="org-doc" label="CNPJ" placeholder="Não informado" inputMode="numeric" />
+            <Field id="org-site" label="Site" placeholder="Não informado" />
           </div>
           <Field id="org-currency" label="Moeda padrão" defaultValue="Real brasileiro (BRL)" disabled />
         </Panel>
