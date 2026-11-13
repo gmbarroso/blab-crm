@@ -63,3 +63,9 @@ Após o usuário configurar o .env local, a conexão ao projeto Supabase foi val
 As credenciais e o certificado local não são versionados. O bootstrap administrativo continua pendente porque BOOTSTRAP_ADMIN_NAME, BOOTSTRAP_ADMIN_EMAIL e BOOTSTRAP_ADMIN_PASSWORD ainda não foram preenchidos. Nenhum usuário demonstrativo foi inserido no banco real. A publicação na Vercel permanece pendente.
 
 A separação DATABASE_URL/DIRECT_URL e a migration de proteção passaram por lint, typecheck, 30 testes unitários, sete testes em PostgreSQL temporário e pelos fluxos HTTP do build Next.js. O runner sobrescreve ambas as URLs para nunca usar o banco externo nos testes.
+
+## Preparação para Vercel
+
+O bootstrap real foi concluído e o vínculo OWNER/senha Argon2id foram verificados sem exibir credenciais. O runtime passou a aceitar DATABASE_SSL_CA como PEM por ambiente, sem depender do caminho local do certificado. A conexão desse formato foi validada por leitura no Supabase: usuário/organização existentes e tabelas de identidade protegidas. O arquivo local .env.vercel contém somente as variáveis necessárias à publicação e está ignorado pelo Git.
+
+Lint, typecheck, 30 testes unitários, sete testes de integração em PostgreSQL temporário, build e autenticação HTTP foram executados para essa configuração. A publicação e o domínio Vercel ainda não foram configurados por esta execução.

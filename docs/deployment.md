@@ -51,8 +51,11 @@ Variáveis de Production:
 
 - DATABASE_URL: conexão runtime ao PostgreSQL do Supabase, usando pooling adequado ao ambiente serverless.
 - DIRECT_URL: conexão direta/Session Pooler para comandos Prisma executados nesse ambiente; não é necessária ao runtime.
+- DATABASE_SSL_CA: conteúdo do certificado CA PEM do Supabase. Com essa variável, o driver valida TLS sem depender de arquivos locais; remova sslrootcert/sslcert e seus caminhos da URL configurada na Vercel.
 - AUTH_SECRET: gere um segredo novo com `openssl rand -base64 48` e armazene-o na Vercel; não o altere entre deploys sem intenção de invalidar sessões.
 - AUTH_URL: `https://crm.blabti.com` quando o domínio estiver configurado; inicialmente pode usar a origem Vercel escolhida para validar.
+
+Para a primeira publicação no domínio Vercel, AUTH_URL pode ficar ausente: Auth.js usa a origem da requisição na Vercel. Após configurar crm.blabti.com, defina AUTH_URL para essa origem e publique novamente.
 
 Vercel é detectada como proxy confiável pelo Auth.js. Não publique variáveis BOOTSTRAP_ADMIN_* no runtime. Use banco e segredo separados para Preview e Production. Configure limitação de tentativas de login no firewall/proxy antes de liberar o acesso público. O build utiliza next/font e precisa baixar as fontes Google.
 
@@ -78,4 +81,10 @@ As tabelas User, Organization e OrganizationMember têm RLS habilitada e não co
 
 Se o pooler retornar SELF_SIGNED_CERT_IN_CHAIN, obtenha a CA oficial na seção SSL Configuration do Supabase e configure o cliente para verificá-la. No ambiente local desta configuração, a CA fica em `.certs/supabase-ca.crt`, fora do Git. A conexão de runtime pg usa `sslmode=verify-full` e `sslrootcert` com o caminho do certificado; a CLI Prisma usa `sslmode=require`, `sslaccept=strict` e `sslcert` apontando à CA. As opções dos dois drivers são diferentes. Não desative a verificação TLS como solução.
 
-Caminhos absolutos locais de certificado não funcionam na Vercel. Antes de publicar, disponibilize a CA no ambiente de implantação e ajuste os caminhos/conexões para esse ambiente. Não copie as URLs locais com caminhos de arquivo sem essa adaptação. Referências: [SSL no Supabase](https://supabase.com/docs/guides/platform/ssl-enforcement) e [TLS nos drivers Prisma/pg](https://www.prisma.io/postgres/ssl-connection-error).
+Caminhos absolutos locais de certificado não funcionam na Vercel. Na Vercel, configure DATABASE_SSL_CA com o conteúdo PEM da CA e use DATABASE_URL sem parâmetros de caminhos locais. O cliente exige validação do certificado com rejectUnauthorized=true e remove os parâmetros SSL da URL que poderiam sobrescrever essa configuração. DIRECT_URL e certificados em arquivo continuam disponíveis para a CLI Prisma executada no computador administrativo. Não copie as URLs locais com caminhos de arquivo sem essa adaptação. Referências: [SSL no Supabase](https://supabase.com/docs/guides/platform/ssl-enforcement) e [TLS nos drivers Prisma/pg](https://www.prisma.io/postgres/ssl-connection-error).
+
+## Importar as variáveis deste workspace
+
+Foi preparado localmente um arquivo `.env.vercel` privado, ignorado pelo Git, com DATABASE_URL sem caminhos de certificado, DATABASE_SSL_CA e um AUTH_SECRET exclusivo de produção. Na Vercel, use Import .env em Environment Variables e selecione esse arquivo, restringindo as variáveis ao ambiente Production. Não importe o .env de bootstrap para a publicação. O certificado aceita quebras de linha reais ou `\n` literais.
+
+Esse arquivo não é distribuído com o repositório; em outros computadores configure essas três variáveis no painel. O usuário e as migrations já existentes no Supabase não precisam ser recriados a cada deploy.
