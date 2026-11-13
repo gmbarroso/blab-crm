@@ -73,5 +73,3 @@ export const SEGMENTS = [
   'Indústria',
   'Beleza e estética',
 ]
-
-export const DEMO_TOAST = 'Modo demonstração: nenhuma informação foi salva.'

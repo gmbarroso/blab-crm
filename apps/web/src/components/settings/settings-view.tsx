@@ -2,7 +2,6 @@
 
 import { Building2, Monitor, Moon, Palette, SlidersHorizontal, Sun, User } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { toast } from 'sonner'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -10,7 +9,6 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { DEMO_TOAST } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { initials } from '@/lib/format'
 import type { OrganizationRole } from '@blab/types'
@@ -19,30 +17,28 @@ function Panel({
   title,
   description,
   children,
-  demoSave = true,
+  readOnly = true,
 }: {
   title: string
   description: string
   children: React.ReactNode
-  demoSave?: boolean
+  readOnly?: boolean
 }) {
   return (
     <form
       className="flex flex-col rounded-xl border bg-card"
       onSubmit={(event) => {
         event.preventDefault()
-        toast.info('Alterações simuladas', { description: DEMO_TOAST })
       }}
     >
       <header className="flex flex-col gap-0.5 border-b px-5 py-4">
         <h2 className="text-sm font-semibold">{title}</h2>
         <p className="text-xs leading-relaxed text-muted-foreground">{description}</p>
       </header>
-      <div className="flex flex-col gap-5 p-5">{children}</div>
-      {demoSave && (
+      <fieldset disabled={readOnly} className="flex min-w-0 flex-col gap-5 p-5">{children}</fieldset>
+      {readOnly && (
         <footer className="flex items-center justify-between gap-3 border-t px-5 py-3">
-          <span className="text-xs text-muted-foreground">Modo demonstração — nada será salvo.</span>
-          <Button type="submit" size="sm">
+          <Button type="submit" size="sm" disabled title="Edição em preparação">
             Salvar alterações
           </Button>
         </footer>
@@ -124,7 +120,7 @@ export function SettingsView({ user, organization, role }: {
         <Panel
           title="Aparência"
           description="O tema é aplicado imediatamente e guardado apenas neste navegador."
-          demoSave={false}
+          readOnly={false}
         >
           <RadioGroup
             value={theme ?? 'system'}

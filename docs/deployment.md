@@ -2,7 +2,7 @@
 
 ## O que fica disponível nesta entrega
 
-A aplicação pode ser publicada com autenticação e organização reais. O banco contém somente User, Organization e OrganizationMember. Os dados fictícios foram removidos: listas e gráficos comerciais exibem estados vazios. Os formulários ainda informam que nada é salvo; a persistência comercial permanece pendente.
+A aplicação pode ser publicada com autenticação e organização reais. O banco contém somente User, Organization e OrganizationMember. Os dados fictícios foram removidos: listas e gráficos comerciais exibem estados vazios. Os formulários sem persistência têm envio desabilitado; a persistência comercial permanece pendente.
 
 Não basta conectar o banco para começar a cadastrar negócios reais. A próxima fase precisa criar os modelos/migrations e os casos de uso comerciais, com validação, autorização por organização e testes. Não importe os dados fictícios para produção.
 

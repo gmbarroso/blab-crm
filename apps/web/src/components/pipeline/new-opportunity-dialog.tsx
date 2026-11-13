@@ -2,7 +2,6 @@
 
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
-import { toast } from 'sonner'
 import { FormDialog } from '@/components/shared/form-dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -14,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { DEMO_TOAST, PIPELINE_STAGES, PRIORITY } from '@/lib/constants'
+import { PIPELINE_STAGES, PRIORITY } from '@/lib/constants'
 
 export interface Option {
   value: string
@@ -41,10 +40,6 @@ export function NewOpportunityButton({ companies, owners }: { companies: Option[
         title="Nova oportunidade"
         description="Adicione um negócio ao pipeline comercial."
         submitLabel="Adicionar ao pipeline"
-        onSubmit={async (data) => {
-          await new Promise((resolve) => setTimeout(resolve, 500))
-          toast.info(`Oportunidade "${data.get('title')}" simulada`, { description: DEMO_TOAST })
-        }}
       >
         <div className="flex flex-col gap-2">
           <Label htmlFor="opp-title">Título</Label>

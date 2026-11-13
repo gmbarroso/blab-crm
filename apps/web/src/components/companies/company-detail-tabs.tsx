@@ -1,7 +1,6 @@
 'use client'
 
 import { FileText, Handshake, History, Mail, MessageCircle, StickyNote, Users } from 'lucide-react'
-import { toast } from 'sonner'
 import { EmptyState } from '@/components/shared/empty-state'
 import { OpportunityCard } from '@/components/shared/opportunity-card'
 import { StatusBadge } from '@/components/shared/status-badge'
@@ -9,7 +8,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
-import { DEMO_TOAST, PIPELINE_STAGES, STAGE_LABEL } from '@/lib/constants'
+import { PIPELINE_STAGES, STAGE_LABEL } from '@/lib/constants'
 import { formatCurrency, formatDateTime, initials } from '@/lib/format'
 import type { Company, CompanyEvent, CompanyNote, Contact, Opportunity } from '@/lib/types'
 
@@ -100,7 +99,7 @@ export function CompanyDetailTabs({
                 </Button>
                 <Button variant="ghost" size="icon-sm" disabled title="Disponível após integração">
                   <MessageCircle />
-                  <span className="sr-only">WhatsApp (indisponível na demonstração)</span>
+                  <span className="sr-only">WhatsApp (em preparação)</span>
                 </Button>
               </li>
             ))}
@@ -153,17 +152,15 @@ export function CompanyDetailTabs({
           className="flex flex-col gap-2 rounded-xl border bg-card p-4"
           onSubmit={(event) => {
             event.preventDefault()
-            event.currentTarget.reset()
-            toast.info('Nota simulada', { description: DEMO_TOAST })
           }}
         >
           <label htmlFor="new-note" className="sr-only">
             Nova nota
           </label>
-          <Textarea id="new-note" name="note" required rows={3} placeholder="Escreva uma nota sobre esta empresa…" />
+          <Textarea id="new-note" name="note" disabled required rows={3} placeholder="Escreva uma nota sobre esta empresa…" />
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs text-muted-foreground">Modo demonstração</span>
-            <Button type="submit" size="sm">
+
+            <Button type="submit" size="sm" disabled title="Notas em preparação">
               Adicionar nota
             </Button>
           </div>

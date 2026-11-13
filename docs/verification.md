@@ -73,3 +73,7 @@ Lint, typecheck, 30 testes unitários, sete testes de integração em PostgreSQL
 ## Remoção dos dados fictícios
 
 Os três arquivos de fixtures comerciais foram removidos. Listas, relatórios e gráficos retornam estados vazios; métricas sem dados não exibem números/variações inventados. O dashboard usa a identidade e organização reais, sem nome ou data fixa. Não houve exclusão no PostgreSQL. O teste HTTP verifica a ausência de exemplos em todas as páginas e notFound para o antigo ID de empresa fictícia.
+
+## Remoção dos avisos e ações simuladas
+
+Os textos de modo demonstração e os callbacks que simulavam cadastro/salvamento foram removidos. Formulários sem handler real não permitem envio; perfil, organização, preferências, notas e conclusão de atividades permanecem indisponíveis para edição. Tema e logout continuam funcionais, e os atalhos de perfil/preferências abrem Configurações. A etapa comercial "Demonstração apresentada" é uma classificação do pipeline e foi preservada. Nenhuma tabela ou registro real foi alterado.

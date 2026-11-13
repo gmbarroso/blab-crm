@@ -122,7 +122,7 @@ try {
     if (path === "/empresas/cmp-01") {
       assert(page.status === 404 || content.includes('NEXT_HTTP_ERROR_FALLBACK;404'), "Empresa fictícia removida deve retornar notFound");
     } else assert.equal(page.status, 200, `Rota privada com sessão: ${path}`);
-    for (const fake of ["Café Tropeiro", "Academia Movimento", "Bom dia, Ana", "B.lab Studio"]) assert(!content.includes(fake), `Sem registros fictícios em ${path}`);
+    for (const fake of ["Café Tropeiro", "Academia Movimento", "Bom dia, Ana", "B.lab Studio", "Modo demonstração", "Alterações simuladas"]) assert(!content.includes(fake), `Sem registros fictícios em ${path}`);
   }
   const settings = await (await request("/configuracoes")).text();
   assert(settings.includes(env.BOOTSTRAP_ADMIN_EMAIL));
