@@ -88,3 +88,7 @@ Caminhos absolutos locais de certificado não funcionam na Vercel. Na Vercel, co
 Foi preparado localmente um arquivo `.env.vercel` privado, ignorado pelo Git, com DATABASE_URL sem caminhos de certificado, DATABASE_SSL_CA e um AUTH_SECRET exclusivo de produção. Na Vercel, use Import .env em Environment Variables e selecione esse arquivo, restringindo as variáveis ao ambiente Production. Não importe o .env de bootstrap para a publicação. O certificado aceita quebras de linha reais ou `\n` literais.
 
 Esse arquivo não é distribuído com o repositório; em outros computadores configure essas três variáveis no painel. O usuário e as migrations já existentes no Supabase não precisam ser recriados a cada deploy.
+
+## Versão de Node no monorepo
+
+O pacote apps/web declara engines.node=22.x, pois é a raiz da aplicação selecionada na Vercel. A raiz do workspace usa ^22.12.0 (somente a linha 22). Mantenha o painel também em 22.x. Se um deploy ainda mostrar Node 26 após ajustar o painel, inicie uma implantação da main contendo essas declarações e confira o commit do novo build, em vez de reaproveitar somente a implantação antiga. A versão final escolhida pela Vercel só pode ser confirmada pelos logs do build remoto.
